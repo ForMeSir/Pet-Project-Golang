@@ -25,4 +25,9 @@ description varchar not null unique,
 price int not null unique,
 image varchar not null unique
 );
+
+-- INSERT INTO users 
+-- (
+-- id,
+-- ) НЕ ЗАБЫТЬ СОЗДАТЬ АДМИНА
 -- Изменить тип данных у price на money или decimal

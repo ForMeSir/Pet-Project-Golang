@@ -22,8 +22,8 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	shop := router.Group("/shop")
 	{
 		shop.POST("/item", h.createItem)
-		// 			shop.GET("/item")
-		// 			shop.DELETE("/deleteitem")
+		shop.GET("/item", h.findItem)
+		//shop.DELETE("/deleteitem")
 	}
 	return router
 }

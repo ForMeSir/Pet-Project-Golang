@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	mentor "pet"
 	"pet/internal/handler"
@@ -31,6 +32,14 @@ func main() {
 	repos := repository.NewRepository(db)
 	services := service.NewService(repos)
 	handlers := handler.NewHandler(services)
+	adminName := "Adminovich"
+  adminUserName:="Admin"
+	AdPassword:="passwordForAdmin"
+	_,err=services.Authorization.CreateAdmin(adminName, adminUserName,AdPassword)
+	if err != nil {
+		fmt.Printf("admin created or error %s", err.Error())
+	}
+
 	server := new(mentor.Server)
 	if err := server.Run("8080", handlers.InitRoutes()); err != nil {
 		logrus.Fatalf("error server init %s", err.Error())

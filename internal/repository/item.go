@@ -44,8 +44,8 @@ func (i *ItemService) Delete(id uuid.UUID) (err error) {
 	return
 }
 
-func (i *ItemService) FindByTitle(title string) (item model.Item, err error) {
-	query := fmt.Sprintf("SELECT * FROM %s WHERE title=$1", itemTable)
+func (i *ItemService) FindByTitle(title string) (item []model.Item, err error) {
+	query := fmt.Sprint("SELECT * FROM ", itemTable, " WHERE title LIKE '%$1%'")
 	row := i.db.QueryRow(query, title)
 	if err = row.Scan(&item); err != nil {
 		fmt.Println(err)
@@ -82,12 +82,12 @@ func (i *ItemService) Update(id uuid.UUID, item model.UpdateItem) (err error) {
 	}
 
 	setQuery := strings.Join(setValues, ",")
-  
-	query := fmt.Sprintf ("UPDATE %s SET %s WHERE id = %d", itemTable , setQuery, id)
-	
+
+	query := fmt.Sprintf("UPDATE %s SET %s WHERE id = %d", itemTable, setQuery, id)
+
 	args = append(args, id)
 
-	_,err = i.db.Exec(query,args)
+	_, err = i.db.Exec(query, args)
 
 	return err
 }

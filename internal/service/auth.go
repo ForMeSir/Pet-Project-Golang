@@ -36,6 +36,11 @@ func (a *AuthService) CreateUser(name string, username string, password string) 
 	return a.repo.CreateUser(name, username, password, userRole)
 }
 
+func (a *AuthService) CreateAdmin(name string, username string, password string) (id uuid.UUID, err error) {
+	userRole := "admin"
+	return a.repo.CreateUser(name, username, password, userRole)
+}
+
 func (a *AuthService) GetUser(username string, password string) (user model.User, err error) {
 	return a.repo.GetUser(username, password)
 }
@@ -89,6 +94,10 @@ func (a *AuthService) ParseToken(token string) (ptoken model.Token, err error) {
 		return ptoken, errors.New("token claims are not of type *tokenClaims")
 	}
 
+	_, err = a.repo.FindSession(claims.SessionId)
+	if err != nil {
+		return
+	}
 	ptoken.UserID = claims.UserId
 	ptoken.SessionID = claims.SessionId
 	ptoken.UserRole = claims.UserRole
