@@ -19,12 +19,13 @@ func (i *ItemService) CreateItem(item model.Item) (uuid.UUID, error) {
 	return i.repo.Create(item)
 }
 
-func (i *ItemService) DeleteItem() {
+func (i *ItemService) DeleteItem(id uuid.UUID) error {
+	return i.repo.Delete(id)
 }
 
 func (i *ItemService) UpdateItem() {
 }
 
-func (i *ItemService) FindItemByTitle(title string)([]model.Item, error) {
-	return i.repo.FindByTitle(title)
+func (i *ItemService) FindItemByTitle(title string, limit int, offset int) ([]model.Item, error) {
+	return i.repo.FindByTitle(title, limit, offset)
 }

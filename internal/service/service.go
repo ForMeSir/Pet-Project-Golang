@@ -18,8 +18,8 @@ type Authorization interface {
 
 type Item interface {
 	CreateItem(item model.Item) (uuid.UUID, error)
-	FindItemByTitle(title string)([]model.Item, error)
-	DeleteItem()
+	FindItemByTitle(title string, limit int, offset int) ([]model.Item, error)
+	DeleteItem(id uuid.UUID) error
 	UpdateItem()
 }
 

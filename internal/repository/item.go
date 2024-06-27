@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"database/sql"
 	"fmt"
 	"pet/internal/model"
 	"strings"
@@ -44,12 +45,27 @@ func (i *ItemService) Delete(id uuid.UUID) (err error) {
 	return
 }
 
-func (i *ItemService) FindByTitle(title string) (item []model.Item, err error) {
-	query := fmt.Sprint("SELECT * FROM ", itemTable, " WHERE title LIKE '%$1%'")
-	row := i.db.QueryRow(query, title)
-	if err = row.Scan(&item); err != nil {
+func (i *ItemService) FindByTitle(title string, limit int, offset int) (items []model.Item, err error) {
+	var rows *sql.Rows
+	query := fmt.Sprint("SELECT * FROM ", itemTable, " WHERE title LIKE '%", title, "%' LIMIT $1 OFFSET $2")
+
+	if limit == 0 {
+		query := fmt.Sprint("SELECT * FROM ", itemTable, " WHERE title LIKE '%", title, "%' LIMIT ALL OFFSET $1")
+		rows, err = i.db.Query(query, offset)
+	} else {
+		rows, err = i.db.Query(query, limit, offset)
+	}
+
+	if err != nil {
 		fmt.Println(err)
 		return
+	}
+	for rows.Next() {
+		var item model.Item
+		if err = rows.Scan(&item.Id, &item.Title, &item.Description, &item.Price, &item.Image); err != nil {
+			fmt.Println(err)
+		}
+		items = append(items, item)
 	}
 	return
 }

@@ -20,10 +20,10 @@ CREATE TABLE sessions
 CREATE TABLE items
 (
 id uuid not null unique,
-title varchar(255) not null unique,
-description varchar not null unique,
-price int not null unique,
-image varchar not null unique
+title varchar(255) not null,
+description varchar not null,
+price int not null,
+image varchar not null
 );
 
 -- INSERT INTO users 

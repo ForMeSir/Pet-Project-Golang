@@ -29,7 +29,7 @@ type Session struct {
 }
 
 type Item struct {
-	Id          uuid.UUID `json:"id,omitempty"`
+	Id          uuid.UUID `json:"id,omitempty" db:"id"`
 	Title       string    `json:"title"       binding:"required" db:"title"`
 	Description string    `json:"description" binding:"required" db:"description"`
 	Price       int       `json:"price"       binding:"required" db:"price"`

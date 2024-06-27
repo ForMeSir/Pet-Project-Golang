@@ -23,7 +23,8 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	{
 		shop.POST("/item", h.createItem)
 		shop.GET("/item", h.findItem)
-		//shop.DELETE("/deleteitem")
+		shop.DELETE("/deleteitem", h.deleteItem)
+		shop.PATCH("/updateitem", h.updateItem)
 	}
 	return router
 }

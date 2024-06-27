@@ -9,7 +9,7 @@ import (
 
 type Item interface {
 	Create(item model.Item) (uuid.UUID, error)
-	FindByTitle(title string) (item []model.Item, err error)
+	FindByTitle(title string, limit int, offset int) (items []model.Item, err error)
 	// FindAllByFilter
 	Update(id uuid.UUID, item model.UpdateItem) (err error)
 	Delete(id uuid.UUID) (err error)

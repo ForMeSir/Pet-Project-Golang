@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+	"fmt"
 	"pet/internal/model"
 	"pet/internal/repository"
 	"time"
@@ -86,18 +87,21 @@ func (a *AuthService) ParseToken(token string) (ptoken model.Token, err error) {
 	})
 
 	if err != nil {
+		fmt.Print(err.Error())
 		return
 	}
 
 	claims, ok := parsedtoken.Claims.(*tokenClaims)
 	if !ok {
+		fmt.Println("Claim")
 		return ptoken, errors.New("token claims are not of type *tokenClaims")
 	}
 
-	_, err = a.repo.FindSession(claims.SessionId)
-	if err != nil {
-		return
-	}
+	// _, err = a.repo.FindSession(claims.SessionId)
+	// if err != nil {
+	// 	fmt.Println("Not Find")
+	// 	return
+	// }
 	ptoken.UserID = claims.UserId
 	ptoken.SessionID = claims.SessionId
 	ptoken.UserRole = claims.UserRole

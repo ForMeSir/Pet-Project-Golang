@@ -1,5 +1,8 @@
 port: 8080
-
+admin:
+  name: 'Adminovich'
+  username: 'Admin'
+  password: 'passwordForAdmin'
 db:
   username: 'postgres'
   password: 'qwerty'
